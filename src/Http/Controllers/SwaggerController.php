@@ -120,6 +120,7 @@ class SwaggerController extends BaseController
         }
 
         $urlToDocs = $this->generateDocumentationFileURL($documentation, $config);
+        // dd($urlToDocs);
         $useAbsolutePath = config('l5-swagger.documentations.'.$documentation.'.paths.use_absolute_path', true);
 
         // Need the / at the end to avoid CORS errors on Homestead systems.
@@ -172,12 +173,6 @@ class SwaggerController extends BaseController
             $fileUsedForDocs = $config['paths']['docs_yaml'];
         }
 
-        $useAbsolutePath = config('l5-swagger.documentations.'.$documentation.'.paths.use_absolute_path', true);
-
-        return route(
-            'l5-swagger.'.$documentation.'.docs',
-            $fileUsedForDocs,
-            $useAbsolutePath
-        );
+        return url('/') . config('l5-swagger.documentations.'.$documentation.'.paths.path');
     }
 }
