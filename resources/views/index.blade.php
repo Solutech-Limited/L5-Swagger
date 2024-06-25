@@ -41,7 +41,7 @@
             operationsSorter: {!! isset($operationsSorter) ? '"' . $operationsSorter . '"' : 'null' !!},
             configUrl: {!! isset($configUrl) ? '"' . $configUrl . '"' : 'null' !!},
             validatorUrl: {!! isset($validatorUrl) ? '"' . $validatorUrl . '"' : 'null' !!},
-            oauth2RedirectUrl: "{{ url('/') . config('l5-swagger.documentations.'.$documentation.'.paths.oauth2-callback') }}",
+            oauth2RedirectUrl: "{{ url('/') . config('l5-swagger.defaults.oauth2-callback') }}",
 
             requestInterceptor: function(request) {
                 request.headers['X-CSRF-TOKEN'] = '{{ csrf_token() }}';

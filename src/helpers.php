@@ -63,6 +63,6 @@ if (! function_exists('l5_swagger_asset')) {
             throw new L5SwaggerException(sprintf('Requested L5 Swagger asset file (%s) does not exists', $asset));
         }
 
-        return url('/') . config('l5-swagger.documentations.'.$documentation.'.paths.asset') . $asset .'?v='.md5_file($file);
+        return url('/') . config('l5-swagger.defaults.asset') . $asset .'?v='.md5_file($file);
     }
 }
