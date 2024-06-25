@@ -118,8 +118,7 @@ class SwaggerController extends BaseController
                 Request::HEADER_X_FORWARDED_AWS_ELB
             );
         }
-
-        $urlToDocs = $this->generateDocumentationFileURL($documentation, $config, $request->route);
+        $urlToDocs = $this->generateDocumentationFileURL($documentation, $config, $request->offsetGet('route'));
         // dd($urlToDocs);
         $useAbsolutePath = config('l5-swagger.defaults.use_absolute_path', true);
 
@@ -164,6 +163,7 @@ class SwaggerController extends BaseController
      */
     protected function generateDocumentationFileURL(string $documentation, array $config, string $route)
     {
-        return url('/') . config('l5-swagger.documentations.'.$documentation.'.paths'.env('L5_SWAGGER_BASE_PATH', null) . '/docs/' . $route);
+        $routes = config('l5-swagger.documentations.'.$documentation.'.routes');
+        return url('/')  . '/docs/' . $routes[$route];
     }
 }

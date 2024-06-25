@@ -40,6 +40,7 @@ class Config
 
         $request->offsetSet('documentation', $documentation);
         $request->offsetSet('config', $config);
+        $request->offsetSet('route', $actions['route']);
 
         return $next($request);
     }

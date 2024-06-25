@@ -31,28 +31,30 @@ Route::group(['namespace' => 'L5Swagger'], function (Router $router) {
         $groupOptions['middleware'][] = L5SwaggerConfig::class;
 
         Route::group($groupOptions, function (Router $router) use ($name, $config) {
-            if (isset($config['routes']['api'])) {
-                foreach ($config['routes'] as $route) {
+            if (isset($config['routes'])) {
+                foreach ($config['routes'] as $route => $json) {
                     $router->get('/api/documentation/' . $route, [
                         'as' => 'l5-swagger.'.$name.'.api',
                         'middleware' => $config['routes']['middleware']['api'] ?? [],
                         'uses' => '\L5Swagger\Http\Controllers\SwaggerController@api',
-                        'route' => $route,
+                        'route' => $route
                     ]);
                 }
             }
 
-            if (isset($config['routes']['docs'])) {
-                $router->get($config['routes']['docs'].'/{jsonFile?}', [
+            if (isset($config['routes'])) {
+                $router->get('/docs'.'/{jsonFile?}', [
                     'as' => 'l5-swagger.'.$name.'.docs',
                     'middleware' => $config['routes']['middleware']['docs'] ?? [],
                     'uses' => '\L5Swagger\Http\Controllers\SwaggerController@docs',
+                    'route' => 'docs'
                 ]);
 
-                $router->get($config['routes']['docs'].'/asset/{asset}', [
+                $router->get('/docs'.'/asset/{asset}', [
                     'as' => 'l5-swagger.'.$name.'.asset',
                     'middleware' => $config['routes']['middleware']['asset'] ?? [],
                     'uses' => '\L5Swagger\Http\Controllers\SwaggerAssetController@index',
+                    'route' => 'asset'
                 ]);
             }
 
