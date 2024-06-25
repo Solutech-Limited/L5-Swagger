@@ -164,6 +164,11 @@ class SwaggerController extends BaseController
     protected function generateDocumentationFileURL(string $documentation, array $config, string $route)
     {
         $routes = config('l5-swagger.documentations.'.$documentation.'.routes');
-        return url('/')  . '/docs/' . $routes[$route];
+        $url = url('/');
+        // if has ssl
+        if (config('l5-swagger.defaults.force') === true) {
+            $url = str_replace('http://', 'https://', $url);
+        }
+        return $url . '/docs/' . $routes[$route];
     }
 }
