@@ -119,9 +119,9 @@ class SwaggerController extends BaseController
             );
         }
 
-        $urlToDocs = $this->generateDocumentationFileURL($documentation, $config);
+        $urlToDocs = $this->generateDocumentationFileURL($documentation, $config, $request->route);
         // dd($urlToDocs);
-        $useAbsolutePath = config('l5-swagger.documentations.'.$documentation.'.paths.use_absolute_path', true);
+        $useAbsolutePath = config('l5-swagger.defaults.use_absolute_path', true);
 
         // Need the / at the end to avoid CORS errors on Homestead systems.
         return ResponseFacade::make(
@@ -162,17 +162,8 @@ class SwaggerController extends BaseController
      * @param  array  $config
      * @return string
      */
-    protected function generateDocumentationFileURL(string $documentation, array $config)
+    protected function generateDocumentationFileURL(string $documentation, array $config, string $route)
     {
-        $fileUsedForDocs = $config['paths']['docs_json'] ?? 'api-docs.json';
-
-        if (! empty($config['paths']['format_to_use_for_docs'])
-            && $config['paths']['format_to_use_for_docs'] === 'yaml'
-            && $config['paths']['docs_yaml']
-        ) {
-            $fileUsedForDocs = $config['paths']['docs_yaml'];
-        }
-
-        return url('/') . config('l5-swagger.documentations.'.$documentation.'.paths.path');
+        return url('/') . config('l5-swagger.documentations.'.$documentation.'.paths'.env('L5_SWAGGER_BASE_PATH', null) . '/docs/' . $route);
     }
 }
