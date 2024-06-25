@@ -33,7 +33,7 @@ Route::group(['namespace' => 'L5Swagger'], function (Router $router) {
         Route::group($groupOptions, function (Router $router) use ($name, $config) {
             if (isset($config['routes']['api'])) {
                 foreach ($config['routes'] as $route) {
-                    $router->get('api/documentation/' . $route, [
+                    $router->get('/api/documentation/' . $route, [
                         'as' => 'l5-swagger.'.$name.'.api',
                         'middleware' => $config['routes']['middleware']['api'] ?? [],
                         'uses' => '\L5Swagger\Http\Controllers\SwaggerController@api',
