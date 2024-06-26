@@ -40,9 +40,9 @@ class SwaggerController extends BaseController
         $fileSystem = new Filesystem();
         $documentation = $request->offsetGet('documentation');
         $config = $request->offsetGet('config');
+        $path = $request->offsetGet('path') ?? '';
         $file = $request->offsetGet('jsonFile');
 
-        $targetFile = $config['paths']['docs_json'] ?? 'api-docs.json';
         $yaml = false;
 
         if ($file !== null) {
@@ -55,7 +55,8 @@ class SwaggerController extends BaseController
             }
         }
 
-        $filePath = $config['paths']['docs'].'/'.$targetFile;
+        $filePath = $config['paths']['docs'].'/'.$path.'/'.$file;
+        $filePath = rtrim($filePath, '/');
 
         if ($config['generate_always']) {
             $generator = $this->generatorFactory->make($documentation);
