@@ -167,7 +167,7 @@ class SwaggerController extends BaseController
         $routes = config('l5-swagger.documentations.'.$documentation.'.routes');
         $url = url('/');
         // if has https
-        if (strpos($url, 'https://') !== false) {
+        if (config('l5-swagger.is_https')) {
             $url = str_replace('http://', 'https://', $url);
         }
         return $url . '/docs/' . $routes[$route];
